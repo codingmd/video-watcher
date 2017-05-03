@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Video Watcher</title>
+  <link rel="stylesheet" type="text/css" href="https://dbc-gdi.netlify.com/common/bootstrap.css">
+ </head>
+ <body>
+
+<div class="container">
+
+ <div class="row">
+   <div class="span12">
+    <h2 class="page-header">Best Videos Ever ❤</h1>
+   </div>
+ </div>
+
+ <div class="row">
+   <div class="span3">
+     <ul>
+      <li><a href="https://www.youtube.com/watch?v=TddFnTB_7IM">Trip through the 80s</a></li>
+      <li><a href="https://www.youtube.com/watch?v=epUk3T2Kfno">Otters Holding Hands</a></li>
+      <li><a href="https://www.youtube.com/watch?v=il2IrgFHfsg">The Ooooh Cat</a></li>
+    </ul>
+   </div>
+
+   <div class="span9" id="video-watcher">
+   </div>
+ </div>
+
+</div>
+
+ <script type="text/javascript" src="https://dbc-gdi.netlify.com/common/youtube.js"></script>
+ <script type="text/javascript" src="https://dbc-gdi.netlify.com/common/jquery.js"></script>
+ <script>
+ var setupVideoEmbed = function(linkUrl) {
+   var $videoEmbed = $('<iframe></iframe>');
+   // We need an embed URL from youtube and set the attribute
+   // see https://dbc-gdi.netlify.com/jquery2/youtube_doc.html
+   /* YOUR CODE GOES HERE */
+   var vid_embed = youtube.generateEmbedUrl(linkUrl);
+   $videoEmbed.attr('src', vid_embed);
+   // Set the height and width of the $videoEmbed jQuery object
+   /* YOUR CODE GOES HERE */
+   $videoEmbed.css({ 'height': '300px', 'width': '500px' });
+   //$videoEmbed.css({'height': '320px', 'width': '640px'});
+
+   // What should be returned from this function?
+   return $videoEmbed;
+ }
+ var videoLinkClickHandler = function(e) {
+   // What do we need to prevent?
+   /* YOUR CODE GOES HERE */
+   e.preventDefault();
+   // How can you get the linkUrl? Could `this` help?
+   var linkUrl = $(this).attr('href');
+
+   // Call setupVideoEmbed function to assign the videoEmbed variable
+   var videoEmbed =  setupVideoEmbed(linkUrl);
+
+   // How can you use jQuery to select the `div` with the id `video-watcher`?
+   var $videoWatcher = $('#video-watcher');
+
+   // With the $videoWatcher jQuery object,
+   // how can you use jQuery methods to change the content and have the video fade in?
+   /* YOUR CODE GOES HERE */
+   $videoWatcher.html(videoEmbed);
+   // $videoWatcher.attr('href', videoEmbed); 
+   //$videoWatcher.fadeIn(3000);
+
+    //teacher solution
+   //$videoWatcher.hide();
+   //$videoWatcher.html(videoEmbed);
+   //$videoWatcher.append(videoEmbed);
+   //$videoWather.fadeIn(800);
+ }
+
+  var addVideoThumbnail = function($videoLink) {
+      // What jQuery method can we use to get the linkUrl?
+      /* YOUR CODE GOES HERE */
+      var url = $videoLink.attr('href');
+      // We need a thumbnail URL from youtube, how do we get it?
+      // See https://dbc-gdi.netlify.com/jquery2/youtube_doc.html
+      /* YOUR CODE GOES HERE */
+      var vid_thumbnail = youtube.generateThumbnailUrl(url);
+//vid_thumbnail equals 'http://i3.ytimg.com/vi/epUk3T2Kfno/default.jpg' (notice how the video's ID is inserted in the middle of the image url)
+      // We need a new image element, with the src set to the thumbnailUrl
+      // How can we do this using jQuery?
+      /* YOUR CODE GOES HERE */
+      var $image = $('<img>').attr('src', vid_thumbnail);
+      // We need to append the thumbnail to the video link.
+      // How do we use jQuery to do that?
+      /* YOUR CODE GOES HERE */
+      $videoLink.append($image);
+    };
+
+  // Use jQuery to select all a tag elements
+  var $videoLinks = $('a');
+
+  // We need to bind to the 'click' event of videolinks, and make sure
+  // videoLinkClickHandler is invoked when that event happens
+  // How do we use jQuery to do that?
+  /* YOUR CODE GOES HERE */
+  $videoLinks.on('click', videoLinkClickHandler);
+
+  // How do we add a thumbnail to all the videos within this for loop?
+  for (var i = 0; i < $videoLinks.length; i++) {
+    var $videoLink = $($videoLinks[i]);
+    addVideoThumbnail($videoLink);
+  }
+ </script>
+ </body>
+</html>
